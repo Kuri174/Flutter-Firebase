@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "215087170646",
+    "firebase_url": "https://kanochan-fbc67.firebaseio.com",
+    "project_id": "kanochan-fbc67",
+    "storage_bucket": "kanochan-fbc67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215087170646:android:cc4e19239b9aafcddf27f7",
+        "android_client_info": {
+          "package_name": "com.example.flutterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215087170646-v014ev87k02o78m49fr0448aqe8k9muo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1EeFt3KKCD9BmDNrgFAZb8yDiJKXdI9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215087170646-v014ev87k02o78m49fr0448aqe8k9muo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
