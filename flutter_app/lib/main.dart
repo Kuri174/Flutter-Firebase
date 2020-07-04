@@ -30,7 +30,7 @@ class _MyList extends State<List> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('kanochan').snapshots(),
+            stream: Firestore.instance.collection('kasikari-memo').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
               if (!snapshot.hasData) return const Text('Loading...');
               return ListView.builder(
@@ -49,7 +49,8 @@ class _MyList extends State<List> {
               context,
               MaterialPageRoute(
                   settings: const RouteSettings(name: "/new"),
-                  builder: (BuildContext context) => InputForm()
+                  //新規作成ボタンの修正
+                  builder: (BuildContext context) => InputForm(null)
               ),
             );
           }
@@ -75,6 +76,14 @@ class _MyList extends State<List> {
                         onPressed: ()
                         {
                           print("編集ボタンを押しました");
+                          //編集ボタンの処理追加
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                settings: const RouteSettings(name: "/edit"),
+                                builder: (BuildContext context) => InputForm(document)
+                            ),
+                          );
                         }
                     ),
                   ],
@@ -87,6 +96,10 @@ class _MyList extends State<List> {
 }
 
 class InputForm extends StatefulWidget {
+  //引数の追加
+  InputForm(this.document);
+  final DocumentSnapshot document;
+
   @override
   _MyInputFormState createState() => _MyInputFormState();
 }
@@ -119,6 +132,22 @@ class _MyInputFormState extends State<InputForm> {
 
   @override
   Widget build(BuildContext context) {
+    //編集データの作成
+    DocumentReference _mainReference;
+    _mainReference = Firestore.instance.collection('kasikari-memo').document();
+    bool deleteFlg = false;
+    if (widget.document != null) {//引数で渡したデータがあるかどうか
+      if(_data.user == null && _data.stuff == null) {
+        _data.borrowOrLend = widget.document['borrowOrLend'];
+        _data.user = widget.document['user'];
+        _data.stuff = widget.document['stuff'];
+        _data.date = widget.document['date'];
+      }
+      _mainReference = Firestore.instance.collection('kasikari-memo').
+      document(widget.document.documentID);
+      deleteFlg = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('かしかり入力'),
@@ -127,12 +156,26 @@ class _MyInputFormState extends State<InputForm> {
               icon: Icon(Icons.save),
               onPressed: () {
                 print("保存ボタンを押しました");
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  _mainReference.setData(
+                      {
+                        'borrowOrLend': _data.borrowOrLend,
+                        'user': _data.user,
+                        'stuff': _data.stuff,
+                        'date': _data.date
+                      }
+                  );
+                  Navigator.pop(context);
+                }
               }
           ),
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {
+            onPressed: !deleteFlg? null:() {
               print("削除ボタンを押しました");
+              _mainReference.delete();
+              Navigator.pop(context);
             },
           ),
         ],
@@ -170,6 +213,15 @@ class _MyInputFormState extends State<InputForm> {
                   hintText: '相手の名前',
                   labelText: 'Name',
                 ),
+                onSaved: (String value) {
+                  _data.user = value;
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return '名前は必須入力項目です';
+                  }
+                },
+                initialValue: _data.user,
               ),
 
               TextFormField(
@@ -178,6 +230,15 @@ class _MyInputFormState extends State<InputForm> {
                   hintText: '借りたもの、貸したもの',
                   labelText: 'loan',
                 ),
+                onSaved: (String value) {
+                  _data.stuff = value;
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return '借りたもの、貸したものは必須入力項目です';
+                  }
+                },
+                initialValue: _data.stuff,
               ),
 
               Padding(
