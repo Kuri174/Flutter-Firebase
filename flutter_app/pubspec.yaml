@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk:  flutter
+  flutter_localizations:
+    sdk: flutter
   firebase_core:  ^0.3.0  # add dependency for Firebase Core
   cloud_firestore: ^0.9.5
 
