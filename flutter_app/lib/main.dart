@@ -224,6 +224,16 @@ class _MyInputFormState extends State<InputForm> {
                 initialValue: _data.user,
               ),
 
+              onSaved: (String value) {
+                _data.user = value;
+              },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return '名前は必須入力項目です';
+                }
+              },
+              initialValue: _data.user,
+
               TextFormField(
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.business_center),
@@ -240,6 +250,16 @@ class _MyInputFormState extends State<InputForm> {
                 },
                 initialValue: _data.stuff,
               ),
+
+              onSaved: (String value) {
+                _data.stuff = value;
+              },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return '借りたもの、貸したものは必須入力項目です';
+                }
+              },
+              initialValue: _data.stuff,
 
               Padding(
                 padding: const EdgeInsets.only(top:8.0),
