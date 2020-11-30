@@ -150,7 +150,7 @@ class _MyInputFormState extends State<InputForm> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('かしかり入力'),
+        title: const Text('貸し借り入力'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.save),
