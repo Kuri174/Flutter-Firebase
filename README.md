@@ -2,4 +2,4 @@
 
 貸し借りメモアプリ
 
-![](https://github.com/Kuri174/Flutter-Firebase/blob/master/flutter_app/myapp.jpg =100x)
+<img src="https://github.com/Kuri174/Flutter-Firebase/blob/master/flutter_app/myapp.jpg" width="200" height="200" />
